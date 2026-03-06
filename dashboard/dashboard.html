@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>ClassInstruct - Dashboard</title>
+    <link rel="stylesheet" href="dashboardglobal.css" />
+    <link rel="stylesheet" href="dashboardstyle.css" />
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar" role="navigation" aria-label="Main navigation">
+            <img class="img" src="img/rectangle-4215.svg" alt="" />
+            <div class="sidebar-header">
+                <img class="ellipse" src="img/ellipse-13.png" alt="Teacher profile picture" />
+                <span class="text-wrapper-6">Teacher</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="active">Dashboard</a>
+                <a href="#classinstruct-ai">ClassInstruct AI</a>
+                <a href="#calendar">Calendar</a>
+                <a href="#students">Students</a>
+                <a href="#attendance">Attendance</a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="header">
+                <h1 class="title">Dashboard</h1>
+                <div class="search-container">
+                    <input type="search" id="search-input" class="search-input" placeholder="Search" aria-label="Search dashboard" />
+                </div>
+                <div class="app-name">ClassInstruct</div>
+            </header>
+            <section class="content-grid">
+                <article class="card enrolled-students">
+                    <h2>Enrolled Students</h2>
+                    <div class="student-count">374</div>
+                    <img class="icon" src="img/tuden-1.png" alt="Student icon" />
+                </article>
+                <article class="card attendance">
+                    <div class="section-header">
+                        <h2>Student Attendance</h2>
+                        <select class="filter">
+                            <option>Weekly</option>
+                        </select>
+                    </div>
+                    <div class="attendance-chart"></div>
+                </article>
+                <article class="card gender-distribution">
+                    <div class="section-header">
+                        <h2>Student by Gender</h2>
+                        <select class="filter">
+                            <option>Section</option>
+                        </select>
+                    </div>
+                    <div class="gender-chart">
+                        <div class="gender-count">46</div>
+                    </div>
+                </article>
+                <article class="card performance">
+                    <div class="section-header">
+                        <h2>Student Performance</h2>
+                        <select class="filter">
+                            <option>First Quarter</option>
+                        </select>
+                    </div>
+                    <div class="performance-chart"></div>
+                </article>
+                <article class="card todo-list">
+                    <h2>To Do List</h2>
+                    <div class="todo-content">...</div>
+                </article>
+                <article class="card calendar">
+                    <h2>March 2026</h2>
+                    <div class="calendar-widget"></div>
+                </article>
+                <article class="card events">
+                    <h2>Events</h2>
+                    <div class="events-content">...</div>
+                </article>
+                <article class="card recent-activity">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-content">...</div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
