@@ -5,52 +5,24 @@ const navLinks = document.querySelectorAll('.nav-link');
 const header = document.querySelector('.header');
 const contactForm = document.getElementById('contactForm');
 
-// Get modal elements
-const signInButton = document.getElementById('signInButton');
-const signInModal = document.getElementById('signInModal');
-const closeModal = document.getElementById('closeModal');
-const modalBackdrop = document.getElementById('modalBackdrop');
-
-document.addEventListener('DOMContentLoaded', () => {
-    const signInButton = document.getElementById('signInButton');
-    const signInModal = document.getElementById('signInModal');
-    const closeModal = document.getElementById('closeModal');
-    const modalBackdrop = document.getElementById('modalBackdrop');
-
-    // Open modal
-    signInButton.addEventListener('click', () => {
-        signInModal.classList.add('active');
-    });
-
-    // Close modal
-    closeModal.addEventListener('click', () => {
-        signInModal.classList.remove('active');
-    });
-
-    // Close modal when clicking on backdrop
-    modalBackdrop.addEventListener('click', () => {
-        signInModal.classList.remove('active');
-    });
-});
-
 // Navigation functionality
 function initNavigation() {
     if (!navToggle || !navMenu) return;
-    
+
     navToggle.addEventListener('click', toggleMobileMenu);
-    
+
     // Close mobile menu when clicking on nav links
     navLinks.forEach(link => {
         link.addEventListener('click', closeMobileMenu);
     });
-    
+
     // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
         if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
             closeMobileMenu();
         }
     });
-    
+
     // Handle keyboard navigation
     navToggle.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -62,11 +34,11 @@ function initNavigation() {
 
 function toggleMobileMenu() {
     const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-    
+
     navToggle.setAttribute('aria-expanded', !isExpanded);
     navToggle.classList.toggle('active');
     navMenu.classList.toggle('active');
-    
+
     // Prevent body scroll when menu is open
     document.body.style.overflow = isExpanded ? 'auto' : 'hidden';
 }
@@ -81,19 +53,19 @@ function closeMobileMenu() {
 // Header scroll effect
 function initHeaderScroll() {
     if (!header) return;
-    
+
     let lastScrollY = window.scrollY;
-    
+
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY;
-        
+
         // Add scrolled class when scrolling down
         if (currentScrollY > 50) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-        
+
         lastScrollY = currentScrollY;
     });
 }
@@ -104,16 +76,16 @@ function initSmoothScrolling() {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
-            
+
             if (target) {
                 const headerHeight = header ? header.offsetHeight : 0;
                 const targetPosition = target.offsetTop - headerHeight - 20;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
                 });
-                
+
                 // Close mobile menu if open
                 closeMobileMenu();
             }
@@ -124,25 +96,23 @@ function initSmoothScrolling() {
 // Form validation and submission
 function initContactForm() {
     if (!contactForm) return;
-    
+
     const formFields = {
         name: contactForm.querySelector('#name'),
         email: contactForm.querySelector('#email'),
-        role: contactForm.querySelector('#role'),
         subject: contactForm.querySelector('#subject'),
         message: contactForm.querySelector('#message')
     };
-    
+
     const errorElements = {
         name: contactForm.querySelector('#name-error'),
         email: contactForm.querySelector('#email-error'),
-        role: contactForm.querySelector('#role-error'),
         subject: contactForm.querySelector('#subject-error'),
         message: contactForm.querySelector('#message-error')
     };
-    
+
     const successMessage = contactForm.querySelector('#success-message');
-    
+
     // Real-time validation
     Object.keys(formFields).forEach(fieldName => {
         const field = formFields[fieldName];
@@ -151,27 +121,27 @@ function initContactForm() {
             field.addEventListener('input', () => clearFieldError(fieldName, field, errorElements[fieldName]));
         }
     });
-    
+
     // Form submission
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         if (validateForm()) {
             await submitForm();
         }
     });
-    
+
     function validateField(fieldName, field, errorElement) {
         const value = field.value.trim();
         let isValid = true;
         let errorMessage = '';
-        
+
         // Required field validation
         if (field.hasAttribute('required') && !value) {
             isValid = false;
             errorMessage = `${getFieldLabel(fieldName)} is required.`;
         }
-        
+
         // Email validation
         if (fieldName === 'email' && value) {
             const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
@@ -180,32 +150,32 @@ function initContactForm() {
                 errorMessage = 'Please enter a valid email address.';
             }
         }
-        
+
         // Name validation
         if (fieldName === 'name' && value && value.length < 2) {
             isValid = false;
             errorMessage = 'Name must be at least 2 characters long.';
         }
-        
+
         // Message validation
         if (fieldName === 'message' && value && value.length < 10) {
             isValid = false;
             errorMessage = 'Message must be at least 10 characters long.';
         }
-        
+
         updateFieldError(field, errorElement, isValid, errorMessage);
         return isValid;
     }
-    
+
     function clearFieldError(fieldName, field, errorElement) {
         if (field.value.trim()) {
             updateFieldError(field, errorElement, true, '');
         }
     }
-    
+
     function updateFieldError(field, errorElement, isValid, errorMessage) {
         const formGroup = field.closest('.form-group');
-        
+
         if (isValid) {
             formGroup.classList.remove('error');
             if (errorElement) {
@@ -222,42 +192,44 @@ function initContactForm() {
             field.setAttribute('aria-invalid', 'true');
         }
     }
-    
+
     function validateForm() {
         let isFormValid = true;
-        
+
         // Validate required fields
         ['name', 'email', 'message'].forEach(fieldName => {
             const field = formFields[fieldName];
             const errorElement = errorElements[fieldName];
-            
+
             if (field && !validateField(fieldName, field, errorElement)) {
                 isFormValid = false;
             }
         });
-        
+
         return isFormValid;
     }
-    
+
     async function submitForm() {
         const submitButton = contactForm.querySelector('button[type="submit"]');
         const originalText = submitButton.innerHTML;
-        
+
         // Show loading state
         submitButton.innerHTML = 'Sending... <span>⏳</span>';
         submitButton.disabled = true;
-        
+
         try {
             // Simulate API call (replace with actual endpoint)
             await new Promise(resolve => setTimeout(resolve, 2000));
-            
+
             // Show success message
-            successMessage.style.display = 'block';
-            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
+            if (successMessage) {
+                successMessage.style.display = 'block';
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
             // Reset form
             contactForm.reset();
-            
+
             // Clear any existing errors
             Object.keys(formFields).forEach(fieldName => {
                 const field = formFields[fieldName];
@@ -266,12 +238,14 @@ function initContactForm() {
                     updateFieldError(field, errorElement, true, '');
                 }
             });
-            
+
             // Hide success message after 5 seconds
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
-            
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+
         } catch (error) {
             console.error('Form submission error:', error);
             alert('Sorry, there was an error sending your message. Please try again or contact us directly.');
@@ -281,12 +255,11 @@ function initContactForm() {
             submitButton.disabled = false;
         }
     }
-    
+
     function getFieldLabel(fieldName) {
         const labels = {
             name: 'Name',
             email: 'Email',
-            role: 'Role',
             subject: 'Subject',
             message: 'Message'
         };
@@ -300,7 +273,7 @@ function initScrollAnimations() {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -309,7 +282,7 @@ function initScrollAnimations() {
             }
         });
     }, observerOptions);
-    
+
     // Observe elements for animation
     const animatedElements = document.querySelectorAll('.feature-card, .resource-card, .hero-content, .hero-visual');
     animatedElements.forEach(el => {
@@ -329,7 +302,7 @@ function openChat() {
 // Performance optimization
 function initLazyLoading() {
     const images = document.querySelectorAll('img[loading="lazy"]');
-    
+
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -341,7 +314,7 @@ function initLazyLoading() {
                 }
             });
         });
-        
+
         images.forEach(img => {
             img.classList.add('loading');
             imageObserver.observe(img);
@@ -352,7 +325,6 @@ function initLazyLoading() {
 // Error handling
 window.addEventListener('error', (e) => {
     console.error('JavaScript error:', e.error);
-    // You could send this to an error tracking service
 });
 
 // Initialize everything when DOM is loaded
@@ -380,23 +352,9 @@ window.addEventListener('resize', () => {
 // Keyboard accessibility
 document.addEventListener('keydown', (e) => {
     // Close mobile menu with Escape key
-    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+    if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
         closeMobileMenu();
     }
-});
-
-// Open modal on button click
-signInButton.addEventListener('click', () => {
-    signInModal.classList.add('active');
-});
-
-// Close modal on close button or backdrop click
-closeModal.addEventListener('click', () => {
-    signInModal.classList.remove('active');
-});
-
-modalBackdrop.addEventListener('click', () => {
-    signInModal.classList.remove('active');
 });
 
 // Expose functions globally for inline event handlers
