@@ -5,6 +5,34 @@ const navLinks = document.querySelectorAll('.nav-link');
 const header = document.querySelector('.header');
 const contactForm = document.getElementById('contactForm');
 
+// Get modal elements
+const signInButton = document.getElementById('signInButton');
+const signInModal = document.getElementById('signInModal');
+const closeModal = document.getElementById('closeModal');
+const modalBackdrop = document.getElementById('modalBackdrop');
+
+document.addEventListener('DOMContentLoaded', () => {
+    const signInButton = document.getElementById('signInButton');
+    const signInModal = document.getElementById('signInModal');
+    const closeModal = document.getElementById('closeModal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+
+    // Open modal
+    signInButton.addEventListener('click', () => {
+        signInModal.classList.add('active');
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        signInModal.classList.remove('active');
+    });
+
+    // Close modal when clicking on backdrop
+    modalBackdrop.addEventListener('click', () => {
+        signInModal.classList.remove('active');
+    });
+});
+
 // Navigation functionality
 function initNavigation() {
     if (!navToggle || !navMenu) return;
@@ -355,6 +383,20 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && navMenu.classList.contains('active')) {
         closeMobileMenu();
     }
+});
+
+// Open modal on button click
+signInButton.addEventListener('click', () => {
+    signInModal.classList.add('active');
+});
+
+// Close modal on close button or backdrop click
+closeModal.addEventListener('click', () => {
+    signInModal.classList.remove('active');
+});
+
+modalBackdrop.addEventListener('click', () => {
+    signInModal.classList.remove('active');
 });
 
 // Expose functions globally for inline event handlers

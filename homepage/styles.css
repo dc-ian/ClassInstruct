@@ -583,6 +583,9 @@ p {
 }
 
 .hero__visual {
+  background-image: url('../image/your-image.png'); /* Update the path */
+  background-size: cover;
+  background-position: center;
   position: relative;
   animation: fadeInRight 0.8s ease-out 0.2s both;
 }
